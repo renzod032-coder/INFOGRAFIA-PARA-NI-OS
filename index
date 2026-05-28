@@ -1,0 +1,830 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0A192F"/>
+
+  <title>Balonmano Pro</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="manifest" href='data:application/manifest+json,{
+    "name":"Balonmano Pro",
+    "short_name":"Balonmano",
+    "display":"standalone",
+    "background_color":"#0A192F",
+    "theme_color":"#0A192F",
+    "start_url":"./"
+  }'>
+
+  <style>
+
+    :root{
+      --bg:#0A192F;
+      --card:rgba(17,34,64,0.75);
+      --cyan:#64FFDA;
+      --text:#CCD6F6;
+      --muted:#8892B0;
+      --danger:#FF6B6B;
+      --border:rgba(100,255,218,0.18);
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      background:
+      radial-gradient(circle at top,#112240 0%,#0A192F 55%);
+      color:var(--text);
+      font-family:'Inter',sans-serif;
+      overflow-x:hidden;
+      line-height:1.6;
+    }
+
+    h1,h2,h3{
+      font-family:'Montserrat',sans-serif;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+
+    section{
+      max-width:1200px;
+      margin:auto;
+      padding:5rem 1.5rem;
+
+      opacity:0;
+      transform:translateY(20px);
+
+      transition:
+      opacity .8s ease,
+      transform .8s ease;
+    }
+
+    section.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    /* HERO */
+
+    .hero{
+      min-height:100vh;
+
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+
+      text-align:center;
+      gap:1.5rem;
+
+      padding:2rem;
+    }
+
+    .hero h1{
+      font-size:clamp(3rem,8vw,6rem);
+      color:var(--cyan);
+
+      text-shadow:
+      0 0 20px rgba(100,255,218,0.25);
+    }
+
+    .hero p{
+      max-width:700px;
+      color:var(--muted);
+      font-size:1.15rem;
+    }
+
+    .cta-btn{
+      padding:1rem 2rem;
+
+      border-radius:18px;
+      border:1px solid var(--cyan);
+
+      background:transparent;
+      color:var(--cyan);
+
+      font-weight:700;
+      cursor:pointer;
+
+      transition:.3s ease;
+
+      min-width:44px;
+      min-height:44px;
+    }
+
+    .cta-btn:hover{
+      transform:translateY(-4px);
+
+      box-shadow:
+      0 0 30px rgba(100,255,218,0.25);
+    }
+
+    .cta-btn:active{
+      transform:scale(.98);
+    }
+
+    /* GRID */
+
+    .grid-two{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:2rem;
+      align-items:center;
+    }
+
+    .icon-box{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      font-size:7rem;
+      color:var(--cyan);
+    }
+
+    /* CARDS */
+
+    .cards{
+      margin-top:2rem;
+
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:1.5rem;
+    }
+
+    .card{
+      background:var(--card);
+
+      border-radius:24px;
+      border:1px solid var(--border);
+
+      padding:1.5rem;
+
+      backdrop-filter:blur(14px);
+
+      transition:.3s ease;
+
+      box-shadow:
+      0 8px 30px rgba(0,0,0,0.25);
+    }
+
+    .card:hover{
+      transform:translateY(-4px);
+
+      box-shadow:
+      0 0 30px rgba(100,255,218,0.18);
+    }
+
+    .card h3{
+      color:var(--cyan);
+      margin-bottom:.8rem;
+    }
+
+    /* CANCHA */
+
+    .court-wrapper{
+      margin-top:2rem;
+
+      background:var(--card);
+
+      border-radius:24px;
+      border:1px solid var(--border);
+
+      padding:1rem;
+
+      overflow:hidden;
+    }
+
+    svg{
+      width:100%;
+      height:auto;
+    }
+
+    /* QUIZ */
+
+    .quiz{
+      display:grid;
+      gap:2rem;
+      margin-top:2rem;
+    }
+
+    .question{
+      background:
+      linear-gradient(
+      135deg,
+      rgba(255,255,255,0.06),
+      rgba(100,255,218,0.08)
+      );
+
+      border-radius:24px;
+      border:1px solid var(--border);
+
+      padding:1.5rem;
+    }
+
+    .answers{
+      display:grid;
+      gap:1rem;
+      margin-top:1.5rem;
+    }
+
+    .answer{
+      border:none;
+      border-radius:18px;
+
+      padding:1rem;
+
+      font-size:1rem;
+      font-weight:700;
+
+      color:white;
+
+      cursor:pointer;
+
+      transition:.25s ease;
+
+      box-shadow:
+      0 8px 18px rgba(0,0,0,0.25);
+    }
+
+    .answer:hover{
+      transform:translateY(-4px) scale(1.02);
+    }
+
+    .answer:active{
+      transform:scale(.98);
+    }
+
+    /* COLORES */
+
+    .blue{
+      background:
+      linear-gradient(135deg,#00C6FF,#0072FF);
+    }
+
+    .pink{
+      background:
+      linear-gradient(135deg,#FF4E9B,#FF006E);
+    }
+
+    .yellow{
+      background:
+      linear-gradient(135deg,#FFD93D,#FFB703);
+      color:#1b1b1b;
+    }
+
+    .green{
+      background:
+      linear-gradient(135deg,#00C853,#64DD17);
+    }
+
+    .orange{
+      background:
+      linear-gradient(135deg,#FF9800,#FF5722);
+    }
+
+    .purple{
+      background:
+      linear-gradient(135deg,#7C4DFF,#651FFF);
+    }
+
+    .feedback{
+      margin-top:1rem;
+      font-weight:800;
+      font-size:1rem;
+    }
+
+    .feedback.error{
+      color:var(--danger);
+    }
+
+    /* TOAST */
+
+    .toast{
+      position:fixed;
+
+      left:50%;
+      bottom:20px;
+
+      transform:translateX(-50%);
+
+      background:rgba(17,34,64,0.95);
+
+      border:1px solid var(--cyan);
+      border-radius:16px;
+
+      padding:1rem 1.5rem;
+
+      color:var(--text);
+
+      backdrop-filter:blur(12px);
+
+      z-index:1000;
+
+      animation:pulse 2s infinite;
+    }
+
+    .toast strong{
+      color:var(--cyan);
+    }
+
+    @keyframes pulse{
+      0%,100%{
+        transform:translateX(-50%) scale(1);
+      }
+
+      50%{
+        transform:translateX(-50%) scale(1.02);
+      }
+    }
+
+    /* FOOTER */
+
+    .app-footer{
+      text-align:center;
+      padding:2rem;
+      border-top:1px solid #233554;
+      margin-top:3rem;
+      color:#8892B0;
+      font-size:.9rem;
+    }
+
+    /* REDUCED MOTION */
+
+    @media(prefers-reduced-motion:reduce){
+
+      *{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+
+  <header class="hero">
+
+    <h1>BALONMANO PRO</h1>
+
+    <p>
+      Domina la cancha en 5 minutos.
+      Aprende reglas, tácticas y movimientos clave
+      con una experiencia visual moderna e interactiva.
+    </p>
+
+    <button class="cta-btn"
+      onclick="document.querySelector('#dinamica').scrollIntoView()">
+      EMPEZAR
+    </button>
+
+  </header>
+
+  <main>
+
+    <!-- DINÁMICA -->
+
+    <section id="dinamica">
+
+      <div class="grid-two">
+
+        <article>
+
+          <h2>Dinámica de Juego</h2>
+
+          <p>
+            El objetivo es marcar más goles que el equipo rival.
+            El balonmano es rápido, táctico y exige coordinación.
+          </p>
+
+          <br>
+
+          <p>
+            Cada equipo tiene 7 jugadores:
+            6 de campo y 1 portero.
+            Debes atacar, defender y reaccionar rápido.
+          </p>
+
+        </article>
+
+        <div class="icon-box">
+          🥅
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- REGLAS -->
+
+    <section>
+
+      <h2>Reglas Fundamentales</h2>
+
+      <div class="cards">
+
+        <article class="card">
+
+          <h3>3 Pasos</h3>
+
+          <p>
+            Puedes avanzar máximo 3 pasos
+            sin botar el balón.
+          </p>
+
+        </article>
+
+        <article class="card">
+
+          <h3>3 Segundos</h3>
+
+          <p>
+            No puedes quedarte quieto
+            sosteniendo el balón más de 3 segundos.
+          </p>
+
+        </article>
+
+        <article class="card">
+
+          <h3>7 Jugadores</h3>
+
+          <p>
+            Cada equipo juega con
+            6 jugadores de campo y 1 portero.
+          </p>
+
+        </article>
+
+        <article class="card">
+
+          <h3>Zona Prohibida</h3>
+
+          <p>
+            Solo el portero puede entrar
+            al área de 6 metros.
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- CANCHA -->
+
+    <section>
+
+      <h2>Anatomía de la Cancha</h2>
+
+      <div class="court-wrapper">
+
+        <svg viewBox="0 0 1200 600">
+
+          <!-- CANCHA -->
+
+          <rect
+            x="40"
+            y="40"
+            width="1120"
+            height="520"
+            rx="20"
+            fill="#14532d"
+            stroke="#64FFDA"
+            stroke-width="6"
+          />
+
+          <!-- LINEA CENTRAL -->
+
+          <line
+            x1="600"
+            y1="40"
+            x2="600"
+            y2="560"
+            stroke="#ffffff"
+            stroke-width="4"
+          />
+
+          <!-- CIRCULO CENTRAL -->
+
+          <circle
+            cx="600"
+            cy="300"
+            r="70"
+            fill="none"
+            stroke="#ffffff"
+            stroke-width="4"
+          />
+
+          <!-- ÁREAS -->
+
+          <path
+            d="M160 170 A130 130 0 0 0 160 430"
+            fill="none"
+            stroke="#ffffff"
+            stroke-width="5"
+          />
+
+          <path
+            d="M1040 170 A130 130 0 0 1 1040 430"
+            fill="none"
+            stroke="#ffffff"
+            stroke-width="5"
+          />
+
+          <!-- LINEA 9M -->
+
+          <path
+            d="M240 120 A180 180 0 0 0 240 480"
+            fill="none"
+            stroke="#FFD93D"
+            stroke-width="4"
+            stroke-dasharray="12 12"
+          />
+
+          <path
+            d="M960 120 A180 180 0 0 1 960 480"
+            fill="none"
+            stroke="#FFD93D"
+            stroke-width="4"
+            stroke-dasharray="12 12"
+          />
+
+          <!-- PORTERIAS -->
+
+          <rect
+            x="40"
+            y="230"
+            width="25"
+            height="140"
+            fill="#ffffff"
+          />
+
+          <rect
+            x="1135"
+            y="230"
+            width="25"
+            height="140"
+            fill="#ffffff"
+          />
+
+          <!-- EQUIPO AZUL -->
+
+          <circle cx="340" cy="170" r="22" fill="#00E5FF"/>
+          <circle cx="420" cy="260" r="22" fill="#00E5FF"/>
+          <circle cx="340" cy="360" r="22" fill="#00E5FF"/>
+          <circle cx="470" cy="420" r="22" fill="#00E5FF"/>
+          <circle cx="250" cy="280" r="22" fill="#00E5FF"/>
+          <circle cx="500" cy="210" r="22" fill="#00E5FF"/>
+
+          <!-- PORTERO -->
+
+          <circle cx="90" cy="300" r="24" fill="#64FFDA"/>
+
+          <!-- EQUIPO ROJO -->
+
+          <circle cx="860" cy="170" r="22" fill="#FF6B6B"/>
+          <circle cx="780" cy="260" r="22" fill="#FF6B6B"/>
+          <circle cx="860" cy="360" r="22" fill="#FF6B6B"/>
+          <circle cx="730" cy="420" r="22" fill="#FF6B6B"/>
+          <circle cx="950" cy="280" r="22" fill="#FF6B6B"/>
+          <circle cx="700" cy="210" r="22" fill="#FF6B6B"/>
+
+          <!-- PORTERO -->
+
+          <circle cx="1110" cy="300" r="24" fill="#FFD93D"/>
+
+          <!-- TEXTOS -->
+
+          <text
+            x="180"
+            y="150"
+            fill="#ffffff"
+            font-size="20"
+            font-weight="700">
+            Área 6m
+          </text>
+
+          <text
+            x="250"
+            y="100"
+            fill="#FFD93D"
+            font-size="20"
+            font-weight="700">
+            Línea 9m
+          </text>
+
+          <text
+            x="545"
+            y="290"
+            fill="#ffffff"
+            font-size="22"
+            font-weight="700">
+            CENTRO
+          </text>
+
+        </svg>
+
+      </div>
+
+    </section>
+
+    <!-- QUIZ -->
+
+    <section>
+
+      <h2>El Reto Táctico</h2>
+
+      <div class="quiz">
+
+        <!-- PREGUNTA 1 -->
+
+        <article class="question">
+
+          <h3>
+            ¿Cuántos pasos puedes dar sin botar?
+          </h3>
+
+          <div class="answers">
+
+            <button
+              class="answer blue"
+              onclick="checkAnswer(this,true,'🔥 Correcto. Máximo 3 pasos.')">
+              ✅ 3 pasos
+            </button>
+
+            <button
+              class="answer pink"
+              onclick="checkAnswer(this,false,'❌ Incorrecto. El límite es 3.')">
+              ❌ 5 pasos
+            </button>
+
+            <button
+              class="answer yellow"
+              onclick="checkAnswer(this,false,'❌ Incorrecto. Son demasiados pasos.')">
+              ❌ 7 pasos
+            </button>
+
+          </div>
+
+          <p class="feedback"></p>
+
+        </article>
+
+        <!-- PREGUNTA 2 -->
+
+        <article class="question">
+
+          <h3>
+            ¿Quién puede entrar al área de 6 metros?
+          </h3>
+
+          <div class="answers">
+
+            <button
+              class="answer purple"
+              onclick="checkAnswer(this,false,'❌ Incorrecto. Solo el portero puede entrar.')">
+              Todos los jugadores
+            </button>
+
+            <button
+              class="answer green"
+              onclick="checkAnswer(this,true,'🏆 Correcto. Solo el portero.')">
+              Solo el portero
+            </button>
+
+            <button
+              class="answer orange"
+              onclick="checkAnswer(this,false,'❌ Incorrecto. El capitán no tiene permiso especial.')">
+              Solo el capitán
+            </button>
+
+          </div>
+
+          <p class="feedback"></p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="app-footer">
+
+      <p>
+        Diseño Instruccional y Desarrollo:
+        <strong>RENZO GABRIEL DIAZ SOTO Martínez</strong>
+      </p>
+
+      <p>
+        Herramienta interactiva desarrollada
+        bajo lineamientos DUA y estándares WCAG.
+      </p>
+
+    </footer>
+
+  </main>
+
+  <!-- TOAST -->
+
+  <div class="toast">
+    <strong>Instalar App</strong>
+    — Accede offline a Balonmano Pro.
+  </div>
+
+  <script>
+
+    /* ANIMACIONES */
+
+    const sections = document.querySelectorAll('section');
+
+    const observer = new IntersectionObserver(entries => {
+
+      entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+        }
+
+      });
+
+    }, {
+      threshold:0.15
+    });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    /* QUIZ */
+
+    function checkAnswer(button,correct,message){
+
+      const feedback =
+      button
+      .closest('.question')
+      .querySelector('.feedback');
+
+      feedback.textContent = message;
+
+      if(correct){
+        feedback.classList.remove('error');
+      } else {
+        feedback.classList.add('error');
+      }
+
+    }
+
+    /* SERVICE WORKER */
+
+    if('serviceWorker' in navigator){
+
+      const swCode = `
+        self.addEventListener('install',event=>{
+          self.skipWaiting();
+        });
+
+        self.addEventListener('fetch',event=>{
+          event.respondWith(
+            fetch(event.request)
+            .catch(()=>caches.match(event.request))
+          );
+        });
+      `;
+
+      const blob =
+      new Blob([swCode],{
+        type:'text/javascript'
+      });
+
+      const swURL =
+      URL.createObjectURL(blob);
+
+      navigator.serviceWorker.register(swURL);
+
+    }
+
+  </script>
+
+</body>
+</html>
+```
